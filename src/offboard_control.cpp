@@ -135,7 +135,7 @@ int main(int argc, char **argv)
     mavros_msgs::Thrust set_thrust;
     targetPose.pose.position.x = 0;
     targetPose.pose.position.y = 0;
-    targetPose.pose.position.z = 3;
+    targetPose.pose.position.z = 10;
     
     while(ros::ok() && !current_state.connected){
         ros::spinOnce();
@@ -160,27 +160,28 @@ int main(int argc, char **argv)
     ros::Time last_request = ros::Time::now();
 
     while(ros::ok()){
-        if (takeOff.data && !landing.data && !offboard.data && current_state.connected && current_state.system_status == 3){
-            if( current_state.mode != "AUTO.TAKEOFF" &&
-                (ros::Time::now() - last_request > ros::Duration(5.0))){
-                if( set_mode_client.call(takeoff_set_mode) &&
-                    takeoff_set_mode.response.mode_sent){
-                    ROS_INFO("Takeoff Mode Set");
-                }
-                last_request = ros::Time::now();
-            } else {
-                if( !current_state.armed &&
+        if (takeOff.data && !landing.data && offboard.data && current_state.connected){
+
+            if (current_state.system_status != 4){
+                if( current_state.mode != "AUTO.TAKEOFF" &&
                     (ros::Time::now() - last_request > ros::Duration(5.0))){
-                    if( arming_client.call(arm_cmd) &&
-                        arm_cmd.response.success){
-                        ROS_INFO("Vehicle armed");
+                    if( set_mode_client.call(takeoff_set_mode) &&
+                        takeoff_set_mode.response.mode_sent){
+                        ROS_INFO("Takeoff Mode Set");
                     }
                     last_request = ros::Time::now();
+                } else {
+                    if( !current_state.armed &&
+                        (ros::Time::now() - last_request > ros::Duration(5.0))){
+                        if( arming_client.call(arm_cmd) &&
+                            arm_cmd.response.success){
+                            ROS_INFO("Vehicle armed");
+                        }
+                        last_request = ros::Time::now();
+                    }
                 }
             }
-        }
 
-        if (takeOff.data && !landing.data && offboard.data && current_state.connected && current_state.system_status == 4){
             if( current_state.mode != "OFFBOARD" &&
                 (ros::Time::now() - last_request > ros::Duration(5.0))){
                     for(int i = 100; ros::ok() && i > 0; --i){
@@ -223,29 +224,29 @@ int main(int argc, char **argv)
                 }
         }
         
-        if (!takeOff.data && landing.data && current_state.connected && current_state.system_status == 4){
-            mavros_msgs::SetMode offb_set_mode;
-            offb_set_mode.request.custom_mode = "AUTO.LAND";
-            arm_cmd.request.value = false;
+        // if (!takeOff.data && landing.data && current_state.connected && current_state.system_status == 4){
+        //     mavros_msgs::SetMode offb_set_mode;
+        //     offb_set_mode.request.custom_mode = "AUTO.LAND";
+        //     arm_cmd.request.value = false;
 
-            if( current_state.mode != "AUTO.LAND" &&
-                (ros::Time::now() - last_request > ros::Duration(5.0))){
-                if( set_mode_client.call(offb_set_mode) &&
-                    offb_set_mode.response.mode_sent){
-                    ROS_INFO("Landing enabled");
-                }
-                last_request = ros::Time::now();
-            } else {
-            if( !current_state.armed &&
-                (ros::Time::now() - last_request > ros::Duration(5.0))){
-                    if( arming_client.call(arm_cmd) && arm_cmd.response.success){
-                        ROS_INFO("Vehicle dis-armed");
-                        return 0;
-                    }
-                    last_request = ros::Time::now();
-                }
-            }
-        }
+        //     if( current_state.mode != "AUTO.LAND" &&
+        //         (ros::Time::now() - last_request > ros::Duration(5.0))){
+        //         if( set_mode_client.call(offb_set_mode) &&
+        //             offb_set_mode.response.mode_sent){
+        //             ROS_INFO("Landing enabled");
+        //         }
+        //         last_request = ros::Time::now();
+        //     } else {
+        //     if( !current_state.armed &&
+        //         (ros::Time::now() - last_request > ros::Duration(5.0))){
+        //             if( arming_client.call(arm_cmd) && arm_cmd.response.success){
+        //                 ROS_INFO("Vehicle dis-armed");
+        //                 return 0;
+        //             }
+        //             last_request = ros::Time::now();
+        //         }
+        //     }
+        // }
         
         ros::spinOnce();
         rate.sleep();
