@@ -135,7 +135,7 @@ int main(int argc, char **argv)
     mavros_msgs::Thrust set_thrust;
     targetPose.pose.position.x = 0;
     targetPose.pose.position.y = 0;
-    targetPose.pose.position.z = 10;
+    targetPose.pose.position.z = 3;
     
     while(ros::ok() && !current_state.connected){
         ros::spinOnce();
