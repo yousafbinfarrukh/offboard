@@ -20,4 +20,11 @@ include_directories(
  ${catkin_INCLUDE_DIRS}
 )
 
+add_executable(offboard_control   src/offboard_control.cpp)
+
+
+target_link_libraries(
+  offboard_control
+    ${catkin_LIBRARIES}
+)
 
