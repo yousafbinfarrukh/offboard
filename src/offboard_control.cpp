@@ -136,6 +136,10 @@ int main(int argc, char **argv)
     targetPose.pose.position.x = 0;
     targetPose.pose.position.y = 0;
     targetPose.pose.position.z = 3;
+    targetPose.pose.orientation.x = 0;
+    targetPose.pose.orientation.y = 0;
+    targetPose.pose.orientation.z = 1;
+    targetPose.pose.orientation.w = 0;
     
     while(ros::ok() && !current_state.connected){
         ros::spinOnce();
