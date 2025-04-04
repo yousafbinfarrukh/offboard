@@ -50,9 +50,11 @@ class Scheduler:
     def scan(self):
         rate = rospy.Rate(10)
         position = PoseStamped()
+
+        # AISLE 1
         position.pose.position.x = 0
-        position.pose.position.y = 0
-        position.pose.position.z = 25
+        position.pose.position.y = -22
+        position.pose.position.z = 3
         position.pose.orientation.x = 0
         position.pose.orientation.y = 0
         position.pose.orientation.z = 1
@@ -62,7 +64,173 @@ class Scheduler:
             self.positionPublisher.publish(position)
             rate.sleep()
 
+        rospy.sleep(45)
+
+        # Traverse to Aisle 2
+        position.pose.position.x = -9.5
+        position.pose.position.y = -22
+        position.pose.position.z = 3
+        position.pose.orientation.x = 0
+        position.pose.orientation.y = 0
+        position.pose.orientation.z = 1
+        position.pose.orientation.w = 0
         
+        for i in range(0,10):
+            self.positionPublisher.publish(position)
+            rate.sleep()
+
+        rospy.sleep(15)
+
+        # AISLE 2
+        position.pose.position.x = -9.5
+        position.pose.position.y = 0
+        position.pose.position.z = 3
+        position.pose.orientation.x = 0
+        position.pose.orientation.y = 0
+        position.pose.orientation.z = 1
+        position.pose.orientation.w = 0
+        
+        for i in range(0,10):
+            self.positionPublisher.publish(position)
+            rate.sleep()
+
+        rospy.sleep(45)
+
+        # Traverse to Aisle 3
+        position.pose.position.x = -19
+        position.pose.position.y = 0
+        position.pose.position.z = 3
+        position.pose.orientation.x = 0
+        position.pose.orientation.y = 0
+        position.pose.orientation.z = 1
+        position.pose.orientation.w = 0
+        
+        for i in range(0,10):
+            self.positionPublisher.publish(position)
+            rate.sleep()
+
+        rospy.sleep(15)
+        
+        # AISLE 3
+        position.pose.position.x = -19
+        position.pose.position.y = -22
+        position.pose.position.z = 3
+        position.pose.orientation.x = 0
+        position.pose.orientation.y = 0
+        position.pose.orientation.z = 1
+        position.pose.orientation.w = 0
+        
+        for i in range(0,10):
+            self.positionPublisher.publish(position)
+            rate.sleep()
+
+        rospy.sleep(45)
+
+        # Traverse to Aisle 3
+        position.pose.position.x = -26
+        position.pose.position.y = -22
+        position.pose.position.z = 3
+        position.pose.orientation.x = 0
+        position.pose.orientation.y = 0
+        position.pose.orientation.z = 0
+        position.pose.orientation.w = 0
+        
+        for i in range(0,10):
+            self.positionPublisher.publish(position)
+            rate.sleep()
+
+        rospy.sleep(15)
+
+        # Reverse Aisle 3
+        position.pose.position.x = -26
+        position.pose.position.y = 0
+        position.pose.position.z = 3
+        position.pose.orientation.x = 0
+        position.pose.orientation.y = 0
+        position.pose.orientation.z = 0
+        position.pose.orientation.w = 0
+        
+        for i in range(0,10):
+            self.positionPublisher.publish(position)
+            rate.sleep()
+
+        rospy.sleep(45)
+
+        # Traverse to Aisle 2
+        position.pose.position.x = -17
+        position.pose.position.y = 0
+        position.pose.position.z = 3
+        position.pose.orientation.x = 0
+        position.pose.orientation.y = 0
+        position.pose.orientation.z = 0
+        position.pose.orientation.w = 0
+        
+        for i in range(0,10):
+            self.positionPublisher.publish(position)
+            rate.sleep()
+
+        rospy.sleep(15)
+
+        # Reverse Aisle 2
+        position.pose.position.x = -17
+        position.pose.position.y = -22
+        position.pose.position.z = 3
+        position.pose.orientation.x = 0
+        position.pose.orientation.y = 0
+        position.pose.orientation.z = 0
+        position.pose.orientation.w = 0
+        
+        for i in range(0,10):
+            self.positionPublisher.publish(position)
+            rate.sleep()
+
+        rospy.sleep(45)
+
+        # Traverse to Aisle 1
+        position.pose.position.x = -8
+        position.pose.position.y = -22
+        position.pose.position.z = 3
+        position.pose.orientation.x = 0
+        position.pose.orientation.y = 0
+        position.pose.orientation.z = 0
+        position.pose.orientation.w = 0
+        
+        for i in range(0,10):
+            self.positionPublisher.publish(position)
+            rate.sleep()
+
+        rospy.sleep(5)
+
+        # Reverse Aisle 2
+        position.pose.position.x = -8
+        position.pose.position.y = 0
+        position.pose.position.z = 3
+        position.pose.orientation.x = 0
+        position.pose.orientation.y = 0
+        position.pose.orientation.z = 0
+        position.pose.orientation.w = 0
+        
+        for i in range(0,10):
+            self.positionPublisher.publish(position)
+            rate.sleep()
+
+        rospy.sleep(45)
+
+        # Traverse to Home
+        position.pose.position.x = 0
+        position.pose.position.y = 0
+        position.pose.position.z = 3
+        position.pose.orientation.x = 0
+        position.pose.orientation.y = 0
+        position.pose.orientation.z = 1
+        position.pose.orientation.w = 0
+        
+        for i in range(0,10):
+            self.positionPublisher.publish(position)
+            rate.sleep()
+
+        rospy.sleep(15)
+
 
 def main():
     uav = Scheduler()
